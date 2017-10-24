@@ -13451,7 +13451,7 @@ It is a ratio of true positives(words classified as spam, and which are actually
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">TP</span> <span class="o">=</span> <span class="p">(</span><span class="n">income</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>  <span class="c1"># Counting the ones as this is the naive case. Note that &#39;income&#39; is the &#39;income_raw&#39; data encoded to numerical values done in the data preprocessing step.</span>
@@ -13463,10 +13463,11 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">TN</span><span class="p">)</span> <span class="o">/</span> <span class="n">income</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 <span class="n">recall</span> <span class="o">=</span> <span class="n">TP</span> <span class="o">/</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">FN</span><span class="p">)</span>
 <span class="n">precision</span> <span class="o">=</span> <span class="n">TP</span> <span class="o">/</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">FP</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">recall</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
 
 <span class="c1"># TODO: Calculate F-score using the formula above for beta = 0.5 and correct values for precision and recall.</span>
-<span class="n">fscore</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">fscore</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">precision</span> <span class="o">*</span> <span class="n">recall</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span>
 
 <span class="c1"># Print the results </span>
 <span class="k">print</span> <span class="s2">&quot;Naive Predictor: [Accuracy score: {:.4f}, F-score: {:.4f}]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">fscore</span><span class="p">)</span>
@@ -13486,8 +13487,8 @@ It is a ratio of true positives(words classified as spam, and which are actually
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(0.24784396974923709, 1.0, 0.24784396974923709)
-Naive Predictor: [Accuracy score: 0.2478, F-score: 0.0000]
+<pre>(1.0, 0.24784396974923709, 0.24784396974923709)
+Naive Predictor: [Accuracy score: 0.2478, F-score: 0.2917]
 </pre>
 </div>
 </div>
@@ -14543,12 +14544,8 @@ Random Forest shows signs of overfitting as it performs perfectly on the trainin
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
-<ol>
-<li>Train data is pre-processed (normalization, scaling, one-hot encoding)</li>
-<li>All train data is used to train the LR model. At this step, model is trained by adjusting coefficients corresponding to each feature so that the difference bewteen the model predictions and true 'income' values is minimal.</li>
-<li>After the training is done, the model is ready to be applied to new data in order to estimate probablity of a person to have a 'high income'.</li>
-</ol>
+<p><strong>Answer: </strong>
+Logistic Regression does not try to predict the numeric value, it outputs a probability that the given input point belongs to a certain class instead. In our case, we have just two classes (low/high income person). We use a set of attributes associated with each person from the data-set as the model input. One of the main assumptions we make is the data to be linearly separable. In two dimensional case it means we assume that we can separate the data-set into two classes with a strainght line. The model training is a process of going through all data points and adjusting the location of the straigh or boundary line. Once training is finished, we have a two dimensional space or simply plain split by the boundary line into two parts. Now each data point from the test-set can be 'dropped' into the plain and seen whether it's belongs to one class or another and how far it is from the boundary line. The father the point from the boundary line the higher probability of it beloning to that particular class.</p>
 
 </div>
 </div>
@@ -15481,6 +15478,154 @@ K7WTpM2UqtWeaEiSJGkq7OGTJEmaOAOfJEnSxBn4JEmSJs7AJ0mSNHEGPkmSpIkz8EmSJE2cgU+S
 JGniDHySJEkT9xc/sqvcu1jwaAAAAABJRU5ErkJggg==
 "
 >
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train_local</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[23]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>workclass</th>
+      <th>education_level</th>
+      <th>education-num</th>
+      <th>marital-status</th>
+      <th>occupation</th>
+      <th>relationship</th>
+      <th>race</th>
+      <th>sex</th>
+      <th>capital-gain</th>
+      <th>capital-loss</th>
+      <th>hours-per-week</th>
+      <th>native-country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7963</th>
+      <td>0.205479</td>
+      <td>Private</td>
+      <td>Bachelors</td>
+      <td>0.800000</td>
+      <td>Never-married</td>
+      <td>Exec-managerial</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Female</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.397959</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>26402</th>
+      <td>0.383562</td>
+      <td>Private</td>
+      <td>Assoc-acdm</td>
+      <td>0.733333</td>
+      <td>Married-civ-spouse</td>
+      <td>Craft-repair</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.663265</td>
+      <td>Yugoslavia</td>
+    </tr>
+    <tr>
+      <th>31411</th>
+      <td>0.383562</td>
+      <td>Self-emp-not-inc</td>
+      <td>11th</td>
+      <td>0.400000</td>
+      <td>Married-civ-spouse</td>
+      <td>Craft-repair</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.500000</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>13367</th>
+      <td>0.301370</td>
+      <td>Self-emp-inc</td>
+      <td>HS-grad</td>
+      <td>0.533333</td>
+      <td>Married-civ-spouse</td>
+      <td>Exec-managerial</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.704082</td>
+      <td>United-States</td>
+    </tr>
+    <tr>
+      <th>38742</th>
+      <td>0.465753</td>
+      <td>State-gov</td>
+      <td>HS-grad</td>
+      <td>0.533333</td>
+      <td>Divorced</td>
+      <td>Adm-clerical</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Female</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.377551</td>
+      <td>United-States</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
