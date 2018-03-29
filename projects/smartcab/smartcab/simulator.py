@@ -241,6 +241,9 @@ class Simulator(object):
                     f.write("\n")  
                 self.table_file.close()
 
+                import pickle
+                pickle.dump(a.Q, open('/tmp/Q.pkl', 'wb'))
+
             self.log_file.close()
 
         print "\nSimulation ended. . . "

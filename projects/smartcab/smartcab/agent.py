@@ -48,9 +48,7 @@ class LearningAgent(Agent):
         if testing:
             self.alpha = self.epsilon = 0
         else:
-            # self.epsilon -= 0.05
             self.t += 1
-            # self.epsilon = self.decay_base ** self.t
             self.epsilon = self.a**self.t
             self.alpha -= 0.002
             # self.alpha = self.init_alpha / math.sqrt(self.t)
@@ -78,8 +76,6 @@ class LearningAgent(Agent):
         # Set 'state' as a tuple of relevant data for the agent
         state = [inputs[input_name] for input_name in self.input_names]
         state.append(waypoint)
-        # state.append(deadline // 10)
-        # state.append(deadline)
         return tuple(state)
 
     def get_maxQ(self, state):
